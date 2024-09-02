@@ -1,6 +1,8 @@
 ---
 title: "Fetching SOFR from the FRBNY API"
 output: html_notebook
+editor_options: 
+  chunk_output_type: inline
 ---
 
 [API Documentation](https://markets.newyorkfed.org/static/docs/markets-api.html)\
@@ -68,9 +70,11 @@ data <- fromJSON(content, flatten = TRUE)
 ```{r}
 sofr_data <- data$refRates[sapply(data$refRates$type, function(x) x == "SOFR"), ]
 ```
+
 `data$refRates[sapply(data$refRates$type, function(x) x == "SOFR"), ]` filters refRates data to include only rows where the type is "SOFR".\
 \
 **8. Return the most recent SOFR rate**
+
 ```{r}
 if (nrow(sofr_data) > 0) {
   sofr_data$effectiveDate <- as.Date(sofr_data$effectiveDate)
@@ -82,12 +86,14 @@ if (nrow(sofr_data) > 0) {
   stop("SOFR rate not found in the response.")
 }
 ```
+
 `as.Date(sofr_data$effectiveDate)` converts the effective date to Date type for comparison.\
 `max(sofr_data$effectiveDate)` finds the most recent date.\
 `sofr_data$percentRate[sofr_data$effectiveDate == latest_date]` retrieves the rate for the most recent date.\
 The function returns this rate. If no SOFR rate data is found, it stops with an error message.\
 \
 **9. Fetch and print the SOFR rate**
+
 ```{r}
 sofr_rate <- get_sofr_rate()
 print(paste("Current SOFR rate:", sprintf("%.2f", sofr_rate)))
