@@ -1,8 +1,5 @@
 ---
 title: "Fetching SOFR from the FRBNY API"
-output: html_notebook
-editor_options: 
-  chunk_output_type: inline
 ---
 
 [API Documentation](https://markets.newyorkfed.org/static/docs/markets-api.html)\
